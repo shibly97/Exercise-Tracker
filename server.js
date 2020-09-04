@@ -53,7 +53,7 @@ app.get("/api/exercise/users", (req, res) => {
 });
 
 app.post("/api/exercise/add", (req, res) => {
-  User.findOneAndUpdate(
+  User.Update(
     { _id: req.body.userId },
     { game: "rugby" },
     { upsert: true },
