@@ -28,40 +28,40 @@ app.get("/", (req, res) => {
 
 app.post("/api/exercise/new-user", (req, res) => {
   var name = req.body.username;
-  
-  User.find({userName: name},(err,result)=>{
-    if( result.length > 0){
-      return res.json("Name already taken")
-    }else{
-      
+
+  User.find({ userName: name }, (err, result) => {
+    if (result.length > 0) {
+      return res.json("Name already taken");
+    } else {
       var insertUser = new User({ userName: name });
 
-      
       insertUser.save((err, result) => {
-    if (err) {
-      res.json(err);
-    } else {   
-      res.json({username: result.userName, "_id": result._id});
+        if (err) {
+          res.json(err);
+        } else {
+          res.json({ username: result.userName, _id: result._id });
+        }
+      });
     }
   });
-    }
-  })
-
-
-  
 });
 
-app.get("/api/exercise/users",(req,res)=>{
-  User.find({},(err,result)=>{
-    res.json(result)
-  })
-})
+app.get("/api/exercise/users", (req, res) => {
+  User.find({}, (err, result) => {
+    res.json(result);
+  });
+});
 
-app.post('/api/exercise/add',(req,res)=>{
-    User.update(req.body.userId,{$set:{"game":"rugby"}},(err,result)=>{
-      res.json(result)
-    })
-})
+app.post("/api/exercise/add", (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.body.userId },
+    { game: "rugby" },
+    { upsert: true },
+    (err, result) => {
+      res.json(result);
+    }
+  );
+});
 
 // Not found middleware
 // app.use((req, res, next) => {
