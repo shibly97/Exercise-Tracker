@@ -58,7 +58,7 @@ app.get("/api/exercise/users",(req,res)=>{
 })
 
 app.post('/api/exercise/add',(req,res)=>{
-    User.findByIdAndUpdate(req.body.userId,{$set{"game":"rugby"},(err,result)=>{
+    User.update(req.body.userId,{$set:{"game":"rugby"}},(err,result)=>{
       res.json(result)
     })
 })
