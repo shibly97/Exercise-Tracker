@@ -58,7 +58,7 @@ app.get("/api/exercise/users",(req,res)=>{
 })
 
 app.post('/api/exercise/add',(req,res)=>{
-  User.find
+  User.findByIdAndUpdate
 })
 
 // Not found middleware
