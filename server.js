@@ -6,12 +6,12 @@ const cors = require("cors");
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGO_URI, {
-  userNewUrlParser: true,
+  useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
 var userSchema = new mongoose.Schema({
-  useName: String
+  userName: String
 });
 
 var User = mongoose.model("User", userSchema);
@@ -31,11 +31,11 @@ app.post("/api/exercise/new-user", (req, res) => {
 
   var insertUser = new User({ userName: name });
 
-  insertUser.save(insertUser, (err, result) => {
+  insertUser.save((err, result) => {
     if (err) {
       res.json(err);
     } else {   
-      res.json(result);
+      res.json({username: result.userName, "_id": result._id});
     }
   });
 });
