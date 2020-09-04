@@ -28,16 +28,27 @@ app.get("/", (req, res) => {
 
 app.post("/api/exercise/new-user", (req, res) => {
   var name = req.body.username;
+  
+  User.find({userName: name},(err,result)=>{
+    if( result.length > 0){
+      return res.json("Name already taken")
+    }else{
+      
+      var insertUser = new User({ userName: name });
 
-  var insertUser = new User({ userName: name });
-
-  insertUser.save((err, result) => {
+      
+      insertUser.save((err, result) => {
     if (err) {
       res.json(err);
     } else {   
       res.json({username: result.userName, "_id": result._id});
     }
   });
+    }
+  })
+
+
+  
 });
 
 app.get("/api/exercise/users",(req,res)=>{
