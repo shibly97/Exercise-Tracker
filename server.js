@@ -4,8 +4,8 @@ const bodyParser = require('body-parser')
 
 const cors = require('cors')
 
-// const mongoose = require('mongoose')
-// mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGO_URI,{usernew})
 
 app.use(cors())
 
@@ -18,7 +18,11 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-
+app.post('api/exercise/new-user',(req,res)=>{
+  var userName = req.body.username
+  
+  
+})
 // Not found middleware
 // app.use((req, res, next) => {
 //   return next({status: 404, message: 'not found'})
