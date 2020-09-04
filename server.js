@@ -1,28 +1,44 @@
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
 
-const cors = require('cors')
+const cors = require("cors");
 
-const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGO_URI,{usernew})
-
-app.use(cors())
-
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-
-
-app.use(express.static('public'))
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html')
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_URI, {
+  userNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
-app.post('api/exercise/new-user',(req,res)=>{
-  var userName = req.body.username
-  
-  
-})
+var userSchema = new mongoose.Schema({
+  useName: String
+});
+
+var User = mongoose.model("User", userSchema);
+
+app.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(express.static("public"));
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/views/index.html");
+});
+
+app.post("/api/exercise/new-user", (req, res) => {
+  var name = req.body.username;
+
+  var insertUser = new User({ userName: name });
+
+  insertUser.save(insertUser, (err, result) => {
+    if (err) {
+      res.json(err);
+    } else {   
+      res.json(result);
+    }
+  });
+});
 // Not found middleware
 // app.use((req, res, next) => {
 //   return next({status: 404, message: 'not found'})
@@ -48,5 +64,5 @@ app.post('api/exercise/new-user',(req,res)=>{
 // })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port)
-})
+  console.log("Your app is listening on port " + listener.address().port);
+});
