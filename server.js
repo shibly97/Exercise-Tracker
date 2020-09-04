@@ -56,6 +56,11 @@ app.get("/api/exercise/users",(req,res)=>{
     res.json(result)
   })
 })
+
+app.post('/api/exercise/add',(req,res)=>{
+  User.find
+})
+
 // Not found middleware
 // app.use((req, res, next) => {
 //   return next({status: 404, message: 'not found'})
