@@ -65,8 +65,14 @@ app.post("/api/exercise/add", (req, res) => {
   var logInsert = new log({
     description: req.body.description,
     duration: parseInt(req.body.duration),
-    date: Date(req.body.date)
+    date: new Date(req.body.date)
   });
+  
+  console.log(logInsert.date) 
+  
+  if (logInsert.date == ""){
+    logInsert.date = new Date()
+  }
 
   User.findOneAndUpdate(
     { _id: req.body.userId },
