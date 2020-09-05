@@ -80,7 +80,8 @@ app.post("/api/exercise/add", (req, res) => {
     { $push: { log: logInsert } },
     { new: true },
     (err, result) => {
-      res.json({_id:result._id, username:result.userName,date:});
+      res.json({_id:result._id, username:result.userName, date:(logInsert.date).toDateString(), 
+                duration:logInsert.duration, description:logInsert.description});
     }
   );
 });
