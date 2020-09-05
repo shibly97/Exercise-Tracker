@@ -68,18 +68,19 @@ app.post("/api/exercise/add", (req, res) => {
     date: new Date(req.body.date)
   });
   
-  console.log(logInsert.date) 
   
   if (logInsert.date == undefined){
     logInsert.date = new Date()
   }
 
+  console.log((logInsert.date).toDateString())
+  
   User.findOneAndUpdate(
     { _id: req.body.userId },
     { $push: { log: logInsert } },
     { new: true },
     (err, result) => {
-      res.json(result);
+      res.json({_id:result._id, username:result.userName,date:});
     }
   );
 });
