@@ -85,7 +85,13 @@ app.post("/api/exercise/add", (req, res) => {
   );
 });
 
-
+app.get("/api/exercise/log",(req,res)=>{
+  var userNeed = req.query.userId
+  
+  User.find({_id: userNeed},(err,result)=>{
+    res.json(result)
+  })
+})
 
 // Not found middleware
 // app.use((req, res, next) => {
