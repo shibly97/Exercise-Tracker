@@ -11,7 +11,8 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 var userSchema = new mongoose.Schema({
-  userName: String
+  userName: String,
+  log : [String]
 });
 
 var User = mongoose.model("User", userSchema);
