@@ -12,7 +12,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 var userSchema = new mongoose.Schema({
   userName: String,
-  log : [String]
+  log : []
 });
 
 var User = mongoose.model("User", userSchema);
@@ -54,14 +54,23 @@ app.get("/api/exercise/users", (req, res) => {
 });
 
 app.post("/api/exercise/add", (req, res) => {
-  User.Update(
-    { _id: req.body.userId },
-    { game: "rugby" },
-    { upsert: true },
-    (err, result) => {
-      res.json(result);
-    }
-  );
+  
+  var logSchema = new mongoose.Schema({
+                    description:String,
+                    duration: Number,
+                    date : Date  
+  })
+  
+  var log = mongoose.model('log',logSchema)
+  
+  var logInsert = new log({
+    description: req.body.des
+  })
+  
+  // User.Update(    (err, result) => {
+  //     res.json(result);
+    // }
+  // );
 });
 
 // Not found middleware
