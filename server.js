@@ -70,7 +70,7 @@ app.post("/api/exercise/add", (req, res) => {
   
   console.log(logInsert.date) 
   
-  if (logInsert.date == ""){
+  if (logInsert.date == undefined){
     logInsert.date = new Date()
   }
 
