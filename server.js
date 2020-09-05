@@ -12,18 +12,18 @@ mongoose.connect(process.env.MONGO_URI, {
 
 var userSchema = new mongoose.Schema({
   userName: String,
-  log : []
+  log: []
 });
 
 var User = mongoose.model("User", userSchema);
 
 var logSchema = new mongoose.Schema({
-                    description:String,
-                    duration: Number,
-                    date : Date  
-  })
+  description: String,
+  duration: Number,
+  date: Date
+});
 
-var log = mongoose.model('log',logSchema)
+var log = mongoose.model("log", logSchema);
 
 app.use(cors());
 
@@ -62,16 +62,20 @@ app.get("/api/exercise/users", (req, res) => {
 });
 
 app.post("/api/exercise/add", (req, res) => {
-  
   var logInsert = new log({
     description: req.body.description,
     duration: parseInt(req.body.duration),
-    date: new Date(req.body.date)
-  })
-  
-  User.findOneAndUpdate({_id:req.body.userId},{$push:{log:logInsert}},{new:true},(err,result)=>{
-    res.json(result)
-  })
+    date: Date(req.body.date)
+  });
+
+  User.findOneAndUpdate(
+    { _id: req.body.userId },
+    { $push: { log: logInsert } },
+    { new: true },
+    (err, result) => {
+      res.json(result);
+    }
+  );
 });
 
 // Not found middleware
