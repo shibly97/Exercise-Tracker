@@ -64,13 +64,12 @@ app.post("/api/exercise/add", (req, res) => {
   var log = mongoose.model('log',logSchema)
   
   var logInsert = new log({
-    description: req.body.des
+    description: req.body.description,
+    duration: parseInt(req.body.duration),
+    date: new Date(req.body.date)
   })
   
-  // User.Update(    (err, result) => {
-  //     res.json(result);
-    // }
-  // );
+  User.findOneAndUpdate(req.body.userId,{})
 });
 
 // Not found middleware
