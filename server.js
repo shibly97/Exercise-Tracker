@@ -89,7 +89,7 @@ app.get("/api/exercise/log",(req,res)=>{
   var userNeed = req.query.userId
   
   User.find({_id: userNeed},(err,result)=>{
-    res.json(result)
+    res.json({_id : result._id, username : result.userName, count : result.log.length, log : result.log.foreach((ex)=>{ })})
   })
 })
 
