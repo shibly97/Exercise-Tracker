@@ -93,8 +93,8 @@ app.post("/api/exercise/add", (req, res) => {
 app.get("/api/exercise/log", (req, res) => {
   var userNeed = req.query.userId;
   
-  var dateFrom = req.query.from;
-  var dateTo = req.query.to;
+  var dateFrom = new Date(req.query.from);
+  var dateTo = new Date(req.query.to);
   var limit = req.query.limit;
   
   var logs 
@@ -111,12 +111,10 @@ app.get("/api/exercise/log", (req, res) => {
       })
     
     if (dateFrom != undefined){
-      logs.filter((ex)=>{
-        ex.date > new Date(dateFrom)
-      })
+      console.log(logs.filter((ex)=>{
+         ex.date > dateFrom 
+      }))
     }
-    
-    console.log(logs)
     
     res.json({
       _id: result[0]._id,
