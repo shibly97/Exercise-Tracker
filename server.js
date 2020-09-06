@@ -100,29 +100,16 @@ app.get("/api/exercise/log", (req, res) => {
   var logs;
 
   User.find({ _id: userNeed }, (err, result) => {
-    //     if (dateFrom != undefined){
-    //       console.log(result[0].log.filter((ex)=>{
-    //          return ex.date.getTime() > dateFrom.getTime()
-    //       }))
-    //     }
   
     var logs = result[0].log
-      
     
-    console.log(logs)
-    console.log(dateFrom)
-    console.log(dateTo)
-    console.log(limit)
-
-    
-    
-      if (dateFrom == undefined) {
+      if (dateFrom != "Invalid Date") {
         logs = logs.filter(ex => {
           return ex.date.getTime() > dateFrom.getTime();
         });
       }
 
-      if (dateTo != undefined) {
+      if (dateTo != "Invalid Date") {
         logs = logs.filter(ex => {
           return ex.date.getTime() < dateTo.getTime();
         });
@@ -131,6 +118,12 @@ app.get("/api/exercise/log", (req, res) => {
       if (limit != undefined) {
         logs = logs.slice(0, parseInt(limit));
       }
+    
+    logs = logs.map((ex)=>{
+      return {description:ex.description, duration:ex.duration, date: ex.date.toDateString()}
+    })
+    
+    console.log(logs)
 
     res.json({
       _id: result[0]._id,
