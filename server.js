@@ -101,6 +101,14 @@ app.get("/api/exercise/log", (req, res) => {
 
   User.find({ _id: userNeed }, (err, result) => {
     
+   
+    
+//     if (dateFrom != undefined){
+//       console.log(result[0].log.filter((ex)=>{
+//          return ex.date.getTime() > dateFrom.getTime()
+//       }))
+//     }
+    
     logs = result[0].log
       .map((ex) => {
         return {
@@ -109,13 +117,7 @@ app.get("/api/exercise/log", (req, res) => {
           date: ex.date.toDateString()
         };
       })
-    
-    if (dateFrom != undefined){
-      console.log(res.date.getTime())
-      // (logs.filter((ex)=>{
-      //    return ex.date > dateFrom.toDateString()
-      // }))
-    }
+     console.log(logs[0].date.getTime())
     
     res.json({
       _id: result[0]._id,
