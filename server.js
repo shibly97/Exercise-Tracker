@@ -111,9 +111,10 @@ app.get("/api/exercise/log", (req, res) => {
       })
     
     if (dateFrom != undefined){
-      console.log(logs.filter((ex)=>{
-         return ex.date > dateFrom.toDateString()
-      }))
+      console.log(res.date.getTime())
+      // (logs.filter((ex)=>{
+      //    return ex.date > dateFrom.toDateString()
+      // }))
     }
     
     res.json({
