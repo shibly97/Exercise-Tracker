@@ -106,14 +106,18 @@ app.get("/api/exercise/log", (req, res) => {
     //       }))
     //     }
   
-    var logTest = result[0].log.filter((ex)=>{
-      return ex.duration == 30
-    })
+    var logs = result[0].log
+      
     
-    console.log(logTest)
+    console.log(logs)
+    console.log(dateFrom)
+    console.log(dateTo)
+    console.log(limit)
+
     
-      if (dateFrom != undefined) {
-        logs = result[0].log.filter(ex => {
+    
+      if (dateFrom == undefined) {
+        logs = logs.filter(ex => {
           return ex.date.getTime() > dateFrom.getTime();
         });
       }
