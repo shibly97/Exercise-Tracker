@@ -96,13 +96,12 @@ app.get("/api/exercise/log", (req, res) => {
   var dateFrom = req.query.from;
   var dateTo = req.query.to;
   var limit = req.query.limit;
+  
+  var logs 
 
   User.find({ _id: userNeed }, (err, result) => {
-    res.json({
-      _id: result[0]._id,
-      username: result[0].userName,
-      count: result[0].log.length,
-      log: result[0].log
+    
+    logs = result[0].log
       .map((ex) => {
         return {
           description: ex.description,
@@ -110,6 +109,20 @@ app.get("/api/exercise/log", (req, res) => {
           date: ex.date.toDateString()
         };
       })
+    
+    if (dateFrom != undefined){
+      logs.filter((ex)=>{
+        ex.date > new Date(dateFrom)
+      })
+    }
+    
+    console.log(logs)
+    
+    res.json({
+      _id: result[0]._id,
+      username: result[0].userName,
+      count: result[0].log.length,
+      log: logs
     });
   });
 });
