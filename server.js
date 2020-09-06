@@ -67,32 +67,50 @@ app.post("/api/exercise/add", (req, res) => {
     duration: parseInt(req.body.duration),
     date: new Date(req.body.date)
   });
-  
-  
-  if (logInsert.date == undefined){
-    logInsert.date = new Date()
+
+  if (logInsert.date == undefined) {
+    logInsert.date = new Date();
   }
 
-  console.log((logInsert.date).toDateString())
-  
+  console.log(logInsert.date.toDateString());
+
   User.findOneAndUpdate(
     { _id: req.body.userId },
     { $push: { log: logInsert } },
     { new: true },
     (err, result) => {
-      res.json({_id:result._id, username:result.userName, date:(logInsert.date).toDateString(), duration:logInsert.duration, description:logInsert.description});
+      res.json({
+        _id: result._id,
+        username: result.userName,
+        date: logInsert.date.toDateString(),
+        duration: logInsert.duration,
+        description: logInsert.description
+      });
     }
   );
 });
 
-app.get("/api/exercise/log",(req,res)=>{
-  var userNeed = req.query.userId
-  
-  User.find({_id: userNeed},(err,result)=>{
-    res.json({_id : result._id, username : result.userName, count : result.log.length, log : result.log.foreach((ex)=>{ })})
-  })
-})
+app.get("/api/exercise/log", (req, res) => {
+  var userNeed = req.query.userId;
 
+  User.find({ _id: userNeed }, (err, result) => {
+    res.json(result
+             // {
+      // _id: result._id,
+      // username: result.userName,
+      // count: result.log
+      // log: result.log.foreach(ex => {
+      //   return {
+      //     description: ex.description,
+      //     duration: ex.duration,
+      //     date: ex.date.toDateString()
+      //   };
+      // })
+    // }
+            );
+  });
+});
+ 
 // Not found middleware
 // app.use((req, res, next) => {
 //   return next({status: 404, message: 'not found'})
