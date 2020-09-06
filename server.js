@@ -106,15 +106,15 @@ app.get("/api/exercise/log", (req, res) => {
 //          return ex.date.getTime() > dateFrom.getTime()
 //       }))
 //     }
-    
+    if (dateFrom != undefined){
     logs = result[0].log
-      .map((ex) => {
-        return {
-          description: ex.description,
-          duration: ex.duration,
-          date: ex.date.toDateString()
-        };
-      })
+      .filter((ex) => {
+          return ex.date.getTime() > dateFrom.getTime()
+      })} 
+    
+    // logs = logs.filter((ex)=>{
+    //   return ex.date.getTime()<dateTo.getTime()
+    // })
     
     res.json({
       _id: result[0]._id,
