@@ -94,9 +94,8 @@ app.get("/api/exercise/log", (req, res) => {
   var userNeed = req.query.userId;
 
   User.find({ _id: userNeed }, (err, result) => {
-    res.json(result
-             // {
-      // _id: result._id,
+    res.json({
+      _id: result._id
       // username: result.userName,
       // count: result.log
       // log: result.log.foreach(ex => {
@@ -106,11 +105,10 @@ app.get("/api/exercise/log", (req, res) => {
       //     date: ex.date.toDateString()
       //   };
       // })
-    // }
-            );
+    });
   });
 });
- 
+
 // Not found middleware
 // app.use((req, res, next) => {
 //   return next({status: 404, message: 'not found'})
