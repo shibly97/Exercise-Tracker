@@ -92,40 +92,44 @@ app.post("/api/exercise/add", (req, res) => {
 
 app.get("/api/exercise/log", (req, res) => {
   var userNeed = req.query.userId;
-  
+
   var dateFrom = new Date(req.query.from);
   var dateTo = new Date(req.query.to);
   var limit = req.query.limit;
-  
-  var logs 
+
+  var logs;
 
   User.find({ _id: userNeed }, (err, result) => {
-    
-//     if (dateFrom != undefined){
-//       console.log(result[0].log.filter((ex)=>{
-//          return ex.date.getTime() > dateFrom.getTime()
-//       }))
-//     }
-    if (dateFrom != undefined){
-    logs = result[0].log
-      .filter((ex) => {
-          return ex.date.getTime() > dateFrom.getTime()
-      })} 
-    
-    if (dateTo != undefined){
-    logs = logs.filter((ex) => {
-          return ex.date.getTime() < dateTo.getTime()
-      })} 
-    
-    if(limit != undefined){
-      logs = logs
+    //     if (dateFrom != undefined){
+    //       console.log(result[0].log.filter((ex)=>{
+    //          return ex.date.getTime() > dateFrom.getTime()
+    //       }))
+    //     }
+    if (dateFrom != undefined || dateTo != undefined || limit != undefined) {
+      if (dateFrom != undefined) {
+        logs = result[0].log.filter(ex => {
+          return ex.date.getTime() > dateFrom.getTime();
+        });
+      }
+
+      if (dateTo != undefined) {
+        logs = logs.filter(ex => {
+          return ex.date.getTime() < dateTo.getTime();
+        });
+      }
+
+      if (limit != undefined) {
+        logs = logs.slice(0, parseInt(limit));
+      }
+    } else {
+      logs = result[0].log;
     }
-    
+
     res.json({
       _id: result[0]._id,
       username: result[0].userName,
       count: result[0].log.length,
-      log: logs 
+      log: logs
     });
   });
 });
