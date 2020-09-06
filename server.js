@@ -92,6 +92,10 @@ app.post("/api/exercise/add", (req, res) => {
 
 app.get("/api/exercise/log", (req, res) => {
   var userNeed = req.query.userId;
+  
+  var dateFrom = req.query.from;
+  var dateTo = req.query.to;
+  var limit = req.query.limit;
 
   User.find({ _id: userNeed }, (err, result) => {
     res.json({
@@ -99,13 +103,13 @@ app.get("/api/exercise/log", (req, res) => {
       username: result[0].userName,
       count: result[0].log.length,
       log: result[0].log
-      // .foreach(ex => {
-      //   return {
-      //     description: ex.description,
-      //     duration: ex.duration,
-      //     date: ex.date.toDateString()
-      //   };
-      // })
+      .map((ex) => {
+        return {
+          description: ex.description,
+          duration: ex.duration,
+          date: ex.date.toDateString()
+        };
+      })
     });
   });
 });
