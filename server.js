@@ -105,7 +105,13 @@ app.get("/api/exercise/log", (req, res) => {
     //          return ex.date.getTime() > dateFrom.getTime()
     //       }))
     //     }
-    if (dateFrom != undefined || dateTo != undefined || limit != undefined) {
+  
+    var logTest = result[0].log.filter((ex)=>{
+      return ex.duration == 30
+    })
+    
+    console.log(logTest)
+    
       if (dateFrom != undefined) {
         logs = result[0].log.filter(ex => {
           return ex.date.getTime() > dateFrom.getTime();
@@ -116,14 +122,11 @@ app.get("/api/exercise/log", (req, res) => {
         logs = logs.filter(ex => {
           return ex.date.getTime() < dateTo.getTime();
         });
-      }
+      } 
 
       if (limit != undefined) {
         logs = logs.slice(0, parseInt(limit));
       }
-    } else {
-      logs = result[0].log;
-    }
 
     res.json({
       _id: result[0]._id,
