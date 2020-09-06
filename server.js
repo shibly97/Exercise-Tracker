@@ -95,10 +95,11 @@ app.get("/api/exercise/log", (req, res) => {
 
   User.find({ _id: userNeed }, (err, result) => {
     res.json({
-      _id: result._id
-      // username: result.userName,
-      // count: result.log
-      // log: result.log.foreach(ex => {
+      _id: result[0]._id,
+      username: result[0].userName,
+      count: result[0].log.length,
+      log: result[0].log
+      // .foreach(ex => {
       //   return {
       //     description: ex.description,
       //     duration: ex.duration,
